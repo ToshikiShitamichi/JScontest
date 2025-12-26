@@ -1,0 +1,263 @@
+/* div {
+    border: 1px solid black;
+} */
+
+.container {
+    width: 95vw;
+    height: 95vh;
+
+    background-color: #000;
+}
+
+.start {
+    width: 95vw;
+    height: 95vh;
+}
+
+.start-menu {
+    width: 100%;
+    height: 5%;
+
+    display: flex;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+}
+
+.title-area {
+    width: 40%;
+    height: 100%;
+}
+
+.room-id-area {
+    width: 30%;
+    height: 100%;
+}
+
+.login-area {
+    width: 30%;
+    height: 100%;
+}
+
+.main {
+    width: 60%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.rival-area {
+    width: 100%;
+    height: 10%;
+
+    display: flex;
+
+    background-color: rgb(155, 0, 155);
+    color: white;
+}
+
+.rival-btn-area {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    gap: 5px;
+}
+
+button{
+    padding: 0;
+}
+
+.rival-btn-area img{
+    width: 50%;
+}
+
+.rival-name-area {
+    width: 40%;
+    height: 50%;
+
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.rival-icon-area {
+    width: 10%;
+    height: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player-hand-area {
+    width: 100%;
+    height: 25%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    background-color: #000;
+}
+
+.player-hand-area img {
+    width: auto;
+    height: 90%;
+
+    border: 1px solid black;
+}
+
+.score-area {
+    width: 100%;
+    height: 25%;
+
+    display: flex;
+}
+
+.player-score-area {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.player-score-area table {
+    background-color: rgb(255, 155, 255);
+}
+
+.player-score-area thead {
+    background-color: rgb(255, 105, 255);
+}
+
+.rival-score-area {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.rival-score-area table {
+    background-color: rgb(155, 155, 255);
+}
+
+.rival-score-area thead{
+    background-color: rgb(105, 105, 255);
+}
+
+.player-area {
+    width: 100%;
+    height: 25%;
+
+    display: flex;
+    align-items: end;
+
+    background-color: rgb(0, 0, 255);
+    color: white;
+}
+
+.player-icon-area {
+    width: 10%;
+    height: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon {
+    width: auto;
+    height: 100%;
+}
+
+.player-name-area {
+    width: 40%;
+    height: 50%;
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.player-btn-area {
+    width: 50%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 5px;
+}
+
+.player-btn-area img{
+    width: 25%;
+}
+
+.sidebar {
+    width: 40%;
+    height: 100%;
+
+    border: 1px solid black;
+
+    background-color: rgb(255, 255, 255);
+
+    overflow: scroll;
+}
+
+.chat {
+    width: 100%;
+
+    display: flex;
+
+    border-bottom: 1px solid black
+}
+
+.chat-user {
+    width: 10%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chat-user-name {
+    font-size: 0.75em;
+}
+
+.chat-msg {
+    width: 100%;
+}
+
+.remove-scrolling {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+table,
+thead,
+tbody,
+tr,
+th,
+td {
+    border: 1px solid black;
+}
+
+@media screen and (max-width: 480px) {
+
+    /* 480px以下に適用されるCSS（スマホ用） */
+    .main {
+        width: 100%;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
