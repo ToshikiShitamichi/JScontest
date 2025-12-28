@@ -13,56 +13,128 @@
 
 <body>
     <div class="container">
-        <!-- <div class="start">
-            <div class="start-menu">
-                <div class="title-area">
-                    <p>　</p>
-                </div>
-                <div class="room-id-area">
-                    <p>　</p>
-                </div>
-                <div class="login-area">
-                    <p>　</p>
-                </div>
+        <div class="start-menu">
+            <div class="title-area">
+                <p>Hit and Blow</p>
             </div>
+            <div class="room-id-area">
+                <p>ルームID：99999</p>
+            </div>
+            <div class="login-area">
+                <button>ログイン</button>
+            </div>
+        </div>
+        <div class="start">
             <div class="start-content">
-                <p>　</p>
-                <button>スタート</button>
+                <h1>Hit and Blow</h1>
+                <div class="menu-btn">
+                    <div class="room-create">
+                        <button id="cpu-match">CPU戦</button>
+                        <button id="room-create">ルーム作成</button>
+                    </div>
+                    <div class="room-join">
+                        <input type="number" name="join-roomid" id="join-roomid" placeholder="ルームIDを入力">
+                        <button id="room-join">ルーム参加</button>
+                    </div>
+                    <div class="gallery">
+                        <input type="number" name="join-roomid" id="join-roomid" placeholder="ルームIDを入力">
+                        <button id="gallery">観戦</button>
+                    </div>
+                </div>
+                <h2 class="rule">ルール説明</h2>
+                <p>
+                    それぞれのプレイヤーが、0-9までの数字を使って、3桁の番号を作成する。
+                    <br>
+                    先攻のプレイヤーは相手の番号を推理してコールする。数字と桁が合っていた場合は「HIT」、数字は合っているが桁は合っていない場合は「BLOW」となる。
+                    <br>
+                    これを先攻・後攻が繰り返して行い、先に相手の番号を完全に当てきったプレイヤーの勝利となる。
+                    <br>
+                    プレイヤーはコールに代わり、1試合につき1度だけアイテムを1種類使用が可能
+                </p>
+                <h2 class="rule">アイテム</h2>
+                <p>
+                    HIGHLOW ...相手の設定ナンバーについて、全ての桁の数字が、それぞれ「HIGH (5-9)」「LOW (0-4)」のどちらかを知ることができる。
+                    <br>
+                    TARGET ...「0」〜「9」の10種類の数字のうち1つを指定して、相手にその数字を使用しているか否かを訊くことができる。
+                    <br>
+                    SHUFFLE ...自分が設定した番号カードを並べ替えて、新たな番号にすることができる。
+                    <br>
+                    CHANGE ...自分のナンバーの中から1つを選択し、その番号を他の数字に交換できる。
+                </p>
             </div>
-        </div> -->
+        </div>
         <div class="content">
             <div class="main">
                 <div class="rival-area">
                     <div class="rival-btn-area">
-                        <button class="highlow" id="highlow"><img src="./img/highlow.png"></button>
-                        <button class="target" id="target">TARGET</button>
-                        <button class="shuffle" id="shuffle">SHUFFLE</button>
-                        <button class="change" id="change">CHANGE</button>
+                        <div class="button"><small>HIGHLOW</small><img src="./img/highlow.png"></div>
+                        <div class="button"><small>TARGET </small><img src="./img/target.png"></div>
+                        <div class="button"><small>SHUFFLE</small><img src="./img/shuffle.png"></div>
+                        <div class="button"><small>CHANGE </small><img src="./img/change.png"></div>
                     </div>
                     <div class="rival-name-area">
                         <p>したみち</p>
                     </div>
                     <div class="rival-icon-area">
-                        <img class="icon" src="./img/default.png" alt="">
+                        <img class="player-icon" src="./img/default.png" alt="">
                     </div>
                 </div>
-                <hr>
-                <div class="player-hand-area">
-                    <img src="./img/1.png" alt="">
-                    <img src="./img/2.png" alt="">
-                    <img src="./img/3.png" alt="">
+                <div class="result-area">
+                    0 HIT 0 BLOW
                 </div>
-                <hr>
+                <div class="hand-area">
+                    <div class="rival-hand-area">
+                        <img src="./img/1.png" alt="">
+                        <img src="./img/2.png" alt="">
+                        <img src="./img/3.png" alt="">
+                    </div>
+                    <div class="player-hand-area">
+                        <img src="./img/blind.png" alt="">
+                        <img src="./img/blind.png" alt="">
+                        <img src="./img/blind.png" alt="">
+                    </div>
+                </div>
                 <div class="score-area">
                     <div class="player-score-area">
-                        <table>
+                        <table class="score-table">
                             <thead>
                                 <tr>
                                     <th>NUMBER</th>
-                                    <th>HIT-BITE</th>
+                                    <th>HIT-BLOW</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">HIGHLOW</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
                                 <tr>
                                     <td>012</td>
                                     <td>0-0</td>
@@ -71,14 +143,45 @@
                         </table>
                     </div>
                     <div class="rival-score-area">
-                        <table>
+                        <table class="score-table">
                             <thead>
                                 <tr>
                                     <th>NUMBER</th>
-                                    <th>HIT-BITE</th>
+                                    <th>HIT-BLOW</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td colspan="2">TARGET:9 XXX</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
+                                <tr>
+                                    <td>012</td>
+                                    <td>0-0</td>
+                                </tr>
                                 <tr>
                                     <td>012</td>
                                     <td>0-0</td>
@@ -87,40 +190,44 @@
                         </table>
                     </div>
                 </div>
-                <hr>
                 <div class="player-area">
                     <div class="player-icon-area">
-                        <img class="icon" src="./img/default.png">
+                        <img class="player-icon" src="./img/default.png">
                     </div>
                     <div class="player-name-area">
                         <p>したみち</p>
                     </div>
                     <div class="player-btn-area">
-                        <button class="highlow" id="highlow"><img src="./img/highlow.png"></button>
-                        <button class="target" id="target">TARGET</button>
-                        <button class="shuffle" id="shuffle">SHUFFLE</button>
-                        <button class="change" id="change">CHANGE</button>
+                        <div class="button" id="highlow"><small>HIGHLOW</small><img src="./img/highlow.png"></div>
+                        <div class="button" id="target"><small>TARGET </small><img src="./img/target.png"></div>
+                        <div class="button" id="shuffle"><small>SHUFFLE</small><img src="./img/shuffle.png"></div>
+                        <div class="button" x id="change"><small>CHANGE </small><img src="./img/change.png"></div>
                     </div>
                 </div>
             </div>
             <div class="sidebar">
-                <div class="chat">
-                    <div class="chat-user">
-                        <img class="icon" src="./img/default.png">
+                <div class="chat-view">
+                    <div class="chat">
+                        <div class="chat-user">
+                            <img class="chat-icon" src="./img/default.png">
+                        </div>
+                        <div class="chat-msg">
+                            <p class="chat-user-name">したみち</p>
+                            <p>がんばれー</p>
+                        </div>
                     </div>
-                    <div class="chat-msg">
-                        <p class="chat-user-name">したみち</p>
-                        <p>がんばれー</p>
+                    <div class="chat">
+                        <div class="chat-user">
+                            <img class="chat-icon" src="./img/default.png">
+                        </div>
+                        <div class="chat-msg">
+                            <p class="chat-user-name">したみち</p>
+                            <p>いけいけー</p>
+                        </div>
                     </div>
                 </div>
-                <div class="chat">
-                    <div class="chat-user">
-                        <img class="icon" src="./img/default.png">
-                    </div>
-                    <div class="chat-msg">
-                        <p class="chat-user-name">したみち</p>
-                        <p>いけいけー</p>
-                    </div>
+                <div class="chat-input">
+                    <input type="text" name="input-message" id="input-message" placeholder="メッセージを入力">
                 </div>
             </div>
         </div>

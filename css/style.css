@@ -1,12 +1,20 @@
-/* div {
-    border: 1px solid black;
-} */
+html {
+    scrollbar-gutter: stable;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .container {
     width: 95vw;
     height: 95vh;
 
-    background-color: #000;
+    font-family: Footlight MT Light;
+    font-size: large;
 }
 
 .start {
@@ -19,33 +27,87 @@
     height: 5%;
 
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.start-menu p {
+    margin: 0;
+}
+
+.start-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.menu-btn div {
+    width: 30%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.rule {
+    width: 100%;
+
+    line-height: 1px;
+}
+
+.rule p {
+    width: 50%;
+
+    justify-content: left;
 }
 
 .content {
     width: 100%;
-    height: 100%;
+    height: 95%;
 
+    background-color: #000;
     display: flex;
 }
 
 .title-area {
     width: 40%;
     height: 100%;
+
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }
 
 .room-id-area {
     width: 30%;
     height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-area {
     width: 30%;
     height: 100%;
+
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }
 
 .main {
     width: 60%;
     height: 100%;
+
+    border: 1px solid black;
 
     display: flex;
     flex-direction: column;
@@ -62,23 +124,48 @@
 }
 
 .rival-btn-area {
-    width: 50%;
+    width: 70%;
     height: 100%;
 
     display: flex;
+    justify-content: left;
+    align-items: center;
     gap: 5px;
 }
 
-button{
+button {
     padding: 0;
 }
 
-.rival-btn-area img{
+.rival-btn-area img {
     width: 50%;
 }
 
+.button {
+    height: 90%;
+    aspect-ratio: 2/1;
+    border: 1px solid #000;
+    color: black;
+    background-color: rgb(245, 245, 245);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.button:hover {
+    opacity: 0.85;
+}
+
+.button img {
+    height: 50%;
+    object-fit: contain;
+}
+
 .rival-name-area {
-    width: 40%;
+    width: 20%;
     height: 50%;
 
     display: flex;
@@ -95,9 +182,21 @@ button{
     align-items: center;
 }
 
-.player-hand-area {
+.result-area {
     width: 100%;
-    height: 25%;
+    height: 10%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    font-size: 1.5em;
+}
+
+.hand-area {
+    width: 100%;
+    height: 30%;
 
     display: flex;
     justify-content: center;
@@ -107,16 +206,36 @@ button{
     background-color: #000;
 }
 
-.player-hand-area img {
+.rival-hand-area {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.player-hand-area {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.hand-area img {
     width: auto;
-    height: 90%;
+    height: 50%;
 
     border: 1px solid black;
 }
 
 .score-area {
     width: 100%;
-    height: 25%;
+    height: 40%;
 
     display: flex;
 }
@@ -127,6 +246,7 @@ button{
 
     display: flex;
     justify-content: center;
+    overflow: auto;
 }
 
 .player-score-area table {
@@ -137,25 +257,42 @@ button{
     background-color: rgb(255, 105, 255);
 }
 
+.player-score-area th {
+    position: sticky;
+}
+
 .rival-score-area {
     width: 50%;
     height: 100%;
 
     display: flex;
     justify-content: center;
+    overflow: auto;
 }
 
 .rival-score-area table {
     background-color: rgb(155, 155, 255);
 }
 
-.rival-score-area thead{
+.rival-score-area thead {
     background-color: rgb(105, 105, 255);
+    position: sticky;
+}
+
+.score-table {
+    width: 90%;
+}
+
+.score-table td {
+    width: 50%;
+
+    vertical-align: top;
+    text-align: center;
 }
 
 .player-area {
     width: 100%;
-    height: 25%;
+    height: 10%;
 
     display: flex;
     align-items: end;
@@ -173,13 +310,16 @@ button{
     align-items: center;
 }
 
-.icon {
-    width: auto;
+.player-icon {
     height: 100%;
 }
 
+.chat-icon {
+    width: 100%;
+}
+
 .player-name-area {
-    width: 40%;
+    width: 20%;
     height: 50%;
 
     display: flex;
@@ -188,16 +328,17 @@ button{
 }
 
 .player-btn-area {
-    width: 50%;
+    width: 70%;
     height: 100%;
 
-    display: grid;
-    grid-template-columns: 2fr 2fr;
+    display: flex;
+    justify-content: right;
+    align-items: center;
     gap: 5px;
 }
 
-.player-btn-area img{
-    width: 25%;
+.player-btn-area img {
+    width: 50%;
 }
 
 .sidebar {
@@ -207,9 +348,19 @@ button{
     border: 1px solid black;
 
     background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-    overflow: scroll;
 }
+
+.chat-view {
+    width: 100%;
+    height: 90%;
+
+    overflow: auto;
+}
+
 
 .chat {
     width: 100%;
@@ -235,10 +386,22 @@ button{
     width: 100%;
 }
 
-.remove-scrolling {
+.chat-input {
+    width: 100%;
+    height: 10%;
+
+    align-items: end;
+
+}
+
+.chat-input input {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+
+    border: 0;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: 0;
 }
 
 table,
@@ -248,9 +411,11 @@ tr,
 th,
 td {
     border: 1px solid black;
+    border-collapse: collapse;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
+    /* @media screen and (max-width: 920px) { */
 
     /* 480px以下に適用されるCSS（スマホ用） */
     .main {
