@@ -24,7 +24,7 @@
                 <button>ログイン</button>
             </div>
         </div>
-        <div class="start">
+        <!-- <div class="start">
             <div class="start-content">
                 <h1>Hit and Blow</h1>
                 <div class="menu-btn">
@@ -41,28 +41,32 @@
                         <button id="gallery">観戦</button>
                     </div>
                 </div>
-                <h2 class="rule">ルール説明</h2>
-                <p>
-                    それぞれのプレイヤーが、0-9までの数字を使って、3桁の番号を作成する。
-                    <br>
-                    先攻のプレイヤーは相手の番号を推理してコールする。数字と桁が合っていた場合は「HIT」、数字は合っているが桁は合っていない場合は「BLOW」となる。
-                    <br>
-                    これを先攻・後攻が繰り返して行い、先に相手の番号を完全に当てきったプレイヤーの勝利となる。
-                    <br>
-                    プレイヤーはコールに代わり、1試合につき1度だけアイテムを1種類使用が可能
-                </p>
-                <h2 class="rule">アイテム</h2>
-                <p>
-                    HIGHLOW ...相手の設定ナンバーについて、全ての桁の数字が、それぞれ「HIGH (5-9)」「LOW (0-4)」のどちらかを知ることができる。
-                    <br>
-                    TARGET ...「0」〜「9」の10種類の数字のうち1つを指定して、相手にその数字を使用しているか否かを訊くことができる。
-                    <br>
-                    SHUFFLE ...自分が設定した番号カードを並べ替えて、新たな番号にすることができる。
-                    <br>
-                    CHANGE ...自分のナンバーの中から1つを選択し、その番号を他の数字に交換できる。
-                </p>
+                <div class="rule">
+                    <h2>ルール説明</h2>
+                    <p>
+                        それぞれのプレイヤーが、0-9までの数字を使って、3桁の番号を作成する。
+                        <br>
+                        先攻のプレイヤーは相手の番号を推理してコールする。数字と桁が合っていた場合は「HIT」、数字は合っているが桁は合っていない場合は「BLOW」となる。
+                        <br>
+                        これを先攻・後攻が繰り返して行い、先に相手の番号を完全に当てきったプレイヤーの勝利となる。
+                        <br>
+                        プレイヤーはコールに代わり、1試合につき1度だけアイテムを1種類使用が可能
+                    </p>
+                </div>
+                <div class="rule">
+                    <h2>アイテム</h2>
+                    <p>
+                        HIGHLOW ...相手の設定ナンバーについて、全ての桁の数字が、それぞれ「HIGH (5-9)」「LOW (0-4)」のどちらかを知ることができる。
+                        <br>
+                        TARGET ...「0」〜「9」の10種類の数字のうち1つを指定して、相手にその数字を使用しているか否かを訊くことができる。
+                        <br>
+                        SHUFFLE ...自分が設定した番号カードを並べ替えて、新たな番号にすることができる。
+                        <br>
+                        CHANGE ...自分のナンバーの中から1つを選択し、その番号を他の数字に交換できる。
+                    </p>
+                </div>
             </div>
-        </div>
+        </div> -->
         <div class="content">
             <div class="main">
                 <div class="rival-area">
@@ -80,21 +84,47 @@
                     </div>
                 </div>
                 <div class="result-area">
-                    0 HIT 0 BLOW
+                    <p>0 HIT 0 BLOW</p>
                 </div>
                 <div class="hand-area">
-                    <div class="rival-hand-area">
-                        <img src="./img/1.png" alt="">
-                        <img src="./img/2.png" alt="">
-                        <img src="./img/3.png" alt="">
-                    </div>
                     <div class="player-hand-area">
-                        <img src="./img/blind.png" alt="">
-                        <img src="./img/blind.png" alt="">
-                        <img src="./img/blind.png" alt="">
+                        <img id="player-hand-1" src="./img/black.png" alt="">
+                        <img id="player-hand-2" src="./img/black.png" alt="">
+                        <img id="player-hand-3" src="./img/black.png" alt="">
+                    </div>
+                    <div class="rival-hand-area">
+                        <img id="rival-hand-1" src="./img/blind.png" alt="">
+                        <img id="rival-hand-2" src="./img/blind.png" alt="">
+                        <img id="rival-hand-3" src="./img/blind.png" alt="">
                     </div>
                 </div>
                 <div class="score-area">
+                    <div class="rival-score-area">
+                        <table class="score-table" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>NUMBER</th>
+                                    <th>HIT-BLOW</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+<div class="numpad">
+    <button class="select-num" id="btn-7">7</button>
+    <button class="select-num" id="btn-8">8</button>
+    <button class="select-num" id="btn-9">9</button>
+    <button class="select-num" id="btn-4">4</button>
+    <button class="select-num" id="btn-5">5</button>
+    <button class="select-num" id="btn-6">6</button>
+    <button class="select-num" id="btn-1">1</button>
+    <button class="select-num" id="btn-2">2</button>
+    <button class="select-num" id="btn-3">3</button>
+    <button id="btn-reset">Reset</button>
+    <button class="select-num" id="btn-0">0</button>
+    <button id="btn-enter">Enter</button>
+</div>
+                    </div>
                     <div class="player-score-area">
                         <table class="score-table">
                             <thead>
@@ -104,88 +134,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">HIGHLOW</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="rival-score-area">
-                        <table class="score-table">
-                            <thead>
-                                <tr>
-                                    <th>NUMBER</th>
-                                    <th>HIT-BLOW</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="2">TARGET:9 XXX</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
-                                <tr>
-                                    <td>012</td>
-                                    <td>0-0</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
