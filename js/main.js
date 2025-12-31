@@ -14,9 +14,24 @@ let cpu_hand = []
 //     cpu_hand_choice()
 // });
 
+/**
+ * result-areaの文字列を変更
+ * @param {String} text 変更後の文字列
+ */
+function change_result_text(text) {
+    $(".result-area p").animate({ opacity: 0 }, 500, function () {
+        $(".result-area p").text(text);
+    }).animate({ opacity: 1 }, 500);
+}
+
 $(window).on("load", function () {
+    change_result_text("Choose three number.")
     open_numpad(player_hand, 3, "image")
     cpu_hand_choice()
+
+    if (player_hand.length === 3) {
+        dicide_turn()
+    }
 });
 
 /**
@@ -33,7 +48,6 @@ function open_numpad(target_array, target_limit, target_type) {
     // ①選択フォーム表示
     $(".rival-score-area .score-table").css("display", "none");
     $(".numpad").css("display", "grid");
-
 }
 
 /**
@@ -52,6 +66,15 @@ function cpu_hand_choice() {
             console.log(cpu_hand);
             break
         }
+    }
+}
+
+function dicide_turn() {
+    if ((Math.random() * 2) < 1) {
+
+        $(".result-area p").text("Player turn");
+    } else {
+        $(".result-area p").text("CPU turn");
     }
 }
 
