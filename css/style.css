@@ -266,6 +266,13 @@ button {
     height: 50%;
 
     border: 1px solid black;
+
+    pointer-events: none;
+}
+
+.choose-hand img{
+    pointer-events: all;
+    border: 5px solid white;
 }
 
 .score-area {
@@ -281,6 +288,7 @@ button {
 
     display: flex;
     justify-content: center;
+    align-items: start;
     overflow: auto;
 }
 
@@ -303,14 +311,23 @@ button {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
+
+    background-color: rgb(245, 245, 245)
 }
 
 .numpad button {
     font-family: Footlight MT Light;
 
-    background-color: rgb(245, 245, 245);
     font-size: 1.5em;
 
+}
+
+.high {
+    background-color: rgba(255, 0, 0, 0.05);
+}
+
+.low {
+    background-color: rgba(0, 0, 255, 0.05);
 }
 
 #btn-enter {
@@ -327,6 +344,7 @@ button {
 
     display: flex;
     justify-content: center;
+    align-items: start;
     overflow: auto;
 }
 
@@ -424,6 +442,10 @@ button {
 
 .player-btn-area img {
     width: 50%;
+}
+
+.is-disabled {
+    pointer-events: none;
 }
 
 .sidebar {
