@@ -21,6 +21,15 @@ p {
     font-size: large;
 }
 
+.login-area{
+    display: flex;
+    align-items: center;
+}
+
+.login-area img{
+    height: 95%;
+}
+
 .start {
     width: 95vw;
     height: 95vh;

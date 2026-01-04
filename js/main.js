@@ -12,20 +12,23 @@ let current_turn = ""
 let call_array = []
 let call_type = ""
 
-// $(".content").hide();
-// // ①「CPU戦」をクリックしゲーム画面に遷移
-// $(".start button").on("click", function () {
-//     $(".start").fadeOut(1000);
-//     $(".content").delay(1000).fadeIn(500);
-//     open_numpad(player_hand,3,"image")
-//     rival_hand_choice()
-// });
+let player_name = ""
+let rival_name = ""
 
-$(window).on("load", function () {
+$(".content").hide();
+// ①「CPU戦」をクリックしゲーム画面に遷移
+$("#cpu-match").on("click", function () {
+    $(".start").fadeOut(1000);
+    $(".content").delay(1000).fadeIn(500);
+
+    player_name = "Player"
+    rival_name = "CPU"
+
     change_result_text("Choose three number.")
     open_numpad(player_hand, 3, "image", dicide_turn)
     rival_hand_choice()
 });
+
 
 /**
  * result-areaの文字列を変更
@@ -57,10 +60,7 @@ function open_numpad(target_array, target_limit, target_type, target_function, t
     $(".select-num").attr("disabled", false);
 
     if (current_allow) {
-        console.log("old" + current_allow);
-
         for (i = 0; i < 10; i++) {
-            console.log(current_allow.indexOf(i))
             if (current_allow.indexOf(i) === -1) {
                 $(`#btn-${i}`).attr("disabled", true);
             }
@@ -85,17 +85,12 @@ function open_numpad(target_array, target_limit, target_type, target_function, t
         if (current_type === "image") {
             // ③選択した数字を保持、画面のカードに反映
             current_array.push(parseInt(select_num))
-            console.log(current_array);
 
             $(`#player-hand-${current_array.length}`).attr("src", `./img/${select_num}.png`);
         } else if (current_type === "text") {
-            console.log(select_num);
-
             current_array.push(parseInt(select_num))
-            console.log(current_array);
 
             $(".result-area p").append(select_num);
-
         }
 
         if (current_array.length === current_limit) {
@@ -196,7 +191,6 @@ function open_numpad(target_array, target_limit, target_type, target_function, t
         change_result_text("SHUFFLE")
 
         const old_hand = [...player_hand]
-        console.log(old_hand);
 
         player_hand.length = 0
         $("#player-hand-1").attr("src", "./img/black.png");
@@ -231,7 +225,7 @@ function open_numpad(target_array, target_limit, target_type, target_function, t
             $(".player-hand-area").removeClass("choose-hand");
             const select_hand_id = $(this).attr("id");
             const select_hand = select_hand_id.substr(12, 1)
-            open_numpad(call_array,1,"image",change_turn)
+            open_numpad(call_array, 1, "image", change_turn)
         });
     })
 }
@@ -260,13 +254,14 @@ function rival_hand_choice() {
  */
 function dicide_turn() {
     current_turn = Math.round(Math.random())
-    console.log(current_turn);
 
     if (current_turn === 0) {
-        change_result_text("Player turn.")
+        $(".player-turn").css("visibility", "visible");
+        change_result_text(`${player_name} turn.`)
         player_turn()
     } else {
-        change_result_text("CPU turn.");
+        $(".rival-turn").css("visibility", "visible");
+        change_result_text(`${rival_name} turn.`);
         rival_turn()
     }
 }
@@ -278,11 +273,15 @@ function change_turn() {
     call_array.length = 0
     if (current_turn === 0) {
         current_turn = 1
-        change_result_text("CPU turn.");
+        $(".player-turn").css("visibility", "hidden");
+        $(".rival-turn").css("visibility", "visible");
+        change_result_text(`${rival_name} turn.`);
         rival_turn()
     } else {
         current_turn = 0
-        change_result_text("Player turn.")
+        $(".rival-turn").css("visibility", "hidden");
+        $(".player-turn").css("visibility", "visible");
+        change_result_text(`${player_name} turn.`)
         player_turn()
     }
 }
@@ -314,7 +313,6 @@ function rival_turn() {
             number_list[num] = ""
             call_array.push(num)
             if (call_array.length === 3) {
-                console.log(rival_hand);
                 break
             }
         }
@@ -361,11 +359,11 @@ function judge() {
     setTimeout(() => {
         if (hit_count === 3) {
             if (current_turn === 0) {
-                change_result_text("Player win.")
+                change_result_text(`${player_name} win.`)
                 return
             }
             else {
-                change_result_text("CPU win.")
+                change_result_text(`${rival_name} win.`)
                 return
             }
         }
