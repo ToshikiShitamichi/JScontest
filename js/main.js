@@ -20,6 +20,7 @@ $(".content").hide();
 $("#cpu-match").on("click", function () {
     $(".start").fadeOut(1000);
     $(".content").delay(1000).fadeIn(500);
+    $("body").addClass("cpu-mode");
 
     player_name = "Player"
     rival_name = "CPU"
@@ -135,43 +136,43 @@ function open_numpad(target_array, target_limit, target_type, target_function, t
 
     });
 
-/**
- * HIGHLOWボタン押下
- */
-$("#highlow").off("click")
-$("#highlow").on("click", async function () {
-    item_used = true
-    $(".player-button").addClass("is-disabled");
+    /**
+     * HIGHLOWボタン押下
+     */
+    $("#highlow").off("click")
+    $("#highlow").on("click", async function () {
+        item_used = true
+        $(".player-button").addClass("is-disabled");
 
-    $(".numpad").css("display", "none");
-    $(".rival-score-area .score-table").css("display", "table");
+        $(".numpad").css("display", "none");
+        $(".rival-score-area .score-table").css("display", "table");
 
-    
-    if (window.player_tug === 0 || window.player_tug === 1) {
 
-        const actionRef = window.dbref(window.db, `action/${window.roomid}`);
-        const newActionRef = window.dbpush(actionRef);
+        if (window.player_tug === 0 || window.player_tug === 1) {
 
-        await window.dbset(newActionRef, {
-            type: "HIGHLOW",
-            by: window.player_tug
-        })
-        return
-    }
-    
-    change_result_text("HIGHLOW")
-    setTimeout(() => {
-        $(".player-score-area tbody").append(`<tr><td colspan=2>HIGHLOW</td></tr>`);
-        for (i = 0; i < rival_hand.length; i++) {
-            if (rival_hand[i] < 5) {
-                $(`#rival-hand-${i + 1}`).attr("src", "./img/low.png");
-            } else {
-                $(`#rival-hand-${i + 1}`).attr("src", "./img/high.png");
-            }
+            const actionRef = window.dbref(window.db, `action/${window.roomid}`);
+            const newActionRef = window.dbpush(actionRef);
+
+            await window.dbset(newActionRef, {
+                type: "HIGHLOW",
+                by: window.player_tug
+            })
+            return
         }
-        change_turn()
-    }, 1500);
-});
+
+        change_result_text("HIGHLOW")
+        setTimeout(() => {
+            $(".player-score-area tbody").append(`<tr><td colspan=2>HIGHLOW</td></tr>`);
+            for (i = 0; i < rival_hand.length; i++) {
+                if (rival_hand[i] < 5) {
+                    $(`#rival-hand-${i + 1}`).attr("src", "./img/low.png");
+                } else {
+                    $(`#rival-hand-${i + 1}`).attr("src", "./img/high.png");
+                }
+            }
+            change_turn()
+        }, 1500);
+    });
 
     /**
      * TARGETボタン押下

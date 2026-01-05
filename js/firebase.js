@@ -9,10 +9,28 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 import { firebaseConfig } from "./api.js"
+import { COMMENTARY } from "./comment.js"
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+
+let lastCommentKey = "";
+let lastCommentAt = 0;
+
+async function postCommentary(roomid, text) {
+    const chatRef = ref(db, `chat/${roomid}`);
+    const newChatRef = push(chatRef);
+
+    const msg = {
+        uI: "./img/announce.png",
+        uN: "実況",
+        message: text
+    };
+
+    await set(newChatRef, msg);
+}
+
 
 window.db = db
 window.dbpush = push
@@ -202,6 +220,9 @@ function msgSubscribe() {
 
             $(".chat-view").append(msgHtml);
         });
+
+        const chatView = $(".chat-view");
+        chatView.scrollTop(chatView[0].scrollHeight);
     })
 
     const playerRef = ref(db, `player/${roomid}`)
@@ -279,6 +300,17 @@ function subscribe() {
                 guest_player_turn()
             }
             return
+        }
+        if (window.player_tug === 0) {
+            if (shouldPostCommentary(data)) {
+                const comment = buildCommentary(data);
+                if (comment) {
+                    // ちょい間を置くと “それっぽい”
+                    setTimeout(() => {
+                        postCommentary(roomid, comment);
+                    }, 350);
+                }
+            }
         }
     })
 
@@ -523,3 +555,67 @@ $("#input-message").keydown(function (e) {
         $("#send").click()
     }
 });
+
+function pick(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function format(template, vars) {
+    return template.replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? ""));
+}
+
+// 文字列イベントから実況を作る
+function buildCommentary(eventText) {
+    // turn判定（末尾が "turn." のもの）
+    if (/ turn\.$/.test(eventText)) {
+        // "xxx turn." からプレイヤー名を抜く
+        const p = eventText.replace(" turn.", "");
+        return format(pick(COMMENTARY.turn), { p });
+    }
+
+    // HIGHLOW
+    if (eventText === "HIGHLOW") {
+        return pick(COMMENTARY.highlow);
+    }
+
+    // CALL > 123
+    const callMatch = eventText.match(/^CALL\s*>\s*(\d{3})$/);
+    if (callMatch) {
+        return format(pick(COMMENTARY.call), { n: callMatch[1] });
+    }
+
+    // 1HIT 2BLOW
+    const hbMatch = eventText.match(/^(\d)HIT\s+(\d)BLOW$/);
+    if (hbMatch) {
+        const h = Number(hbMatch[1]);
+        const b = Number(hbMatch[2]);
+        if (h === 0 && b === 0) return pick(COMMENTARY.hb0);
+        return format(pick(COMMENTARY.hb), { h, b });
+    }
+
+    // win.
+    const winMatch = eventText.match(/^(.*) win\.$/);
+    if (winMatch) {
+        const p = winMatch[1];
+        return format(pick(COMMENTARY.win), { p });
+    }
+
+    // その他は実況しない
+    return null;
+}
+
+function shouldPostCommentary(eventText) {
+    // 似たイベントは連投しない（例：同じ文字列）
+    const now = Date.now();
+    const key = eventText;
+
+    if (key === lastCommentKey && now - lastCommentAt < 2000) return false;
+
+    // そもそも実況しないイベントは弾く
+    const c = buildCommentary(eventText);
+    if (!c) return false;
+
+    lastCommentKey = key;
+    lastCommentAt = now;
+    return true;
+}
