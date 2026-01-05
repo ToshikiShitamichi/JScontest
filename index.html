@@ -70,11 +70,14 @@
         <div class="content">
             <div class="main">
                 <div class="rival-area">
-                    <div class="rival-btn-area" style="visibility: hidden;">
+                    <div class="rival-btn-area">
                         <div class="button is-disabled"><small>HIGHLOW</small><img src="./img/highlow.png"></div>
-                        <div class="button is-disabled"><small>TARGET </small><img src="./img/target.png"></div>
-                        <div class="button is-disabled"><small>SHUFFLE</small><img src="./img/shuffle.png"></div>
-                        <div class="button is-disabled"><small>CHANGE </small><img src="./img/change.png"></div>
+                        <div class="button is-disabled" style="visibility: hidden;"><small>TARGET </small><img
+                                src="./img/target.png"></div>
+                        <div class="button is-disabled" style="visibility: hidden;"><small>SHUFFLE</small><img
+                                src="./img/shuffle.png"></div>
+                        <div class="button is-disabled" style="visibility: hidden;"><small>CHANGE </small><img
+                                src="./img/change.png"></div>
                     </div>
                     <div class="rival-info-area">
                         <div class="rival-info-row1">
@@ -163,15 +166,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="player-btn-area" style="visibility: hidden;">
+                    <div class="player-btn-area">
+                        <div class="button player-button is-disabled" id="target" style="visibility: hidden;">
+                            <small>TARGET </small><img src="./img/target.png"></div>
+                        <div class="button player-button is-disabled" id="shuffle" style="visibility: hidden;">
+                            <small>SHUFFLE</small><img src="./img/shuffle.png"></div>
+                        <div class="button player-button is-disabled" id="change" style="visibility: hidden;">
+                            <small>CHANGE </small><img src="./img/change.png"></div>
                         <div class="button player-button is-disabled" id="highlow"><small>HIGHLOW</small><img
                                 src="./img/highlow.png"></div>
-                        <div class="button player-button is-disabled" id="target"><small>TARGET </small><img
-                                src="./img/target.png"></div>
-                        <div class="button player-button is-disabled" id="shuffle"><small>SHUFFLE</small><img
-                                src="./img/shuffle.png"></div>
-                        <div class="button player-button is-disabled" id="change"><small>CHANGE </small><img
-                                src="./img/change.png"></div>
                     </div>
                 </div>
             </div>
@@ -198,6 +201,7 @@
                 </div>
                 <div class="chat-input">
                     <input type="text" name="input-message" id="input-message" placeholder="メッセージを入力">
+                    <button id="send">送信</button>
                 </div>
             </div>
         </div>

@@ -21,12 +21,12 @@ p {
     font-size: large;
 }
 
-.login-area{
+.login-area {
     display: flex;
     align-items: center;
 }
 
-.login-area img{
+.login-area img {
     height: 95%;
 }
 
@@ -279,7 +279,7 @@ button {
     pointer-events: none;
 }
 
-.choose-hand img{
+.choose-hand img {
     pointer-events: all;
     border: 5px solid white;
 }
@@ -426,10 +426,6 @@ button {
     height: 100%;
 }
 
-.chat-icon {
-    width: 100%;
-}
-
 .player-name-area {
     width: 70%;
     height: 100%;
@@ -493,6 +489,10 @@ button {
     justify-content: center;
 }
 
+.chat-icon {
+    width: 100%;
+}
+
 .chat-user-name {
     font-size: 0.75em;
 }
@@ -505,17 +505,23 @@ button {
     width: 100%;
     height: 10%;
 
-    align-items: end;
-
+    display: flex;
 }
 
 .chat-input input {
-    width: 100%;
+    width: 90%;
     height: 100%;
 
     border: 0;
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
+    padding: 0;
+}
+
+.chat-input button {
+    width: 10%;
+    height: 100%;
+
     padding: 0;
 }
 
@@ -530,14 +536,24 @@ td {
 }
 
 @media screen and (max-width: 768px) {
-    /* @media screen and (max-width: 920px) { */
+    .content {
+        display: block
+    }
 
-    /* 480px以下に適用されるCSS（スマホ用） */
     .main {
         width: 100%;
+        height: 70%;
     }
 
     .sidebar {
-        display: none;
+        width: 100%;
+        height: 30%;
+
+        font-size: small;
+    }
+
+    .chat-icon {
+        width: 45%;
+        margin: 0 auto;
     }
 }

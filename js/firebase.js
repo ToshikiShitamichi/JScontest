@@ -2,7 +2,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import {
-    getDatabase, push, ref, set, get, onValue, update, remove, onChildAdded
+    getDatabase, push, ref, set, get, onValue, update, onChildAdded
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -13,6 +13,11 @@ import { firebaseConfig } from "./api.js"
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+
+window.db = db
+window.dbpush = push
+window.dbref = ref
+window.dbset = set
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
@@ -31,7 +36,7 @@ onAuthStateChanged(auth, (user) => {
 
 
 let roomid = 0
-let player_tug = -1
+window.player_tug = -1
 let player_icon = ""
 let rival_icon = ""
 
@@ -40,13 +45,13 @@ let guest_name = "Guest player"
 
 $("#room-create").on("click", async function () {
     // ・プレイヤータグを0に設定
-    player_tug = 0
+    window.player_tug = 0
     player_name = "Host player"
     rival_name = "Guest player"
 
     // ・作成時にルームID作成、保存、表示
     roomid = Math.floor(Math.random() * (99999 - 10000) + 10000)
-
+    window.roomid = roomid
     const roomRef = ref(db, `rooms/${roomid}`)
     await set(roomRef, { status: "waiting" })
 
@@ -65,19 +70,20 @@ $("#room-create").on("click", async function () {
         photoURL: currentUser?.photoURL ?? "./img/default.png"
     })
 
+    msgSubscribe()
     open_numpad(player_hand, 3, "image", hand_dicide)
 });
 
 $("#room-join").on("click", async function () {
     try {
         // ・プレイヤータグを1に設定
-        player_tug = 1
+        window.player_tug = 1
         player_name = "Guest player"
         rival_name = "Host player"
 
         // ルームIDを入力し、画面遷移
         roomid = $("#join-roomid").val();
-
+        window.roomid = roomid
         const roomRef = ref(db, `rooms/${roomid}`)
 
         const get_joinroom_status = await get(roomRef)
@@ -104,6 +110,7 @@ $("#room-join").on("click", async function () {
             photoURL: currentUser?.photoURL ?? "./img/default.png"
         })
 
+        msgSubscribe()
         open_numpad(player_hand, 3, "image", hand_dicide)
     } catch (error) {
         location.reload()
@@ -114,7 +121,7 @@ $("#gallery-join").on("click", async function () {
     try {
         // ルームIDを入力し、画面遷移
         roomid = $("#gallery-roomid").val();
-
+        window.roomid = roomid
         const roomRef = ref(db, `rooms/${roomid}`)
 
         const get_joinroom_status = await get(roomRef)
@@ -137,6 +144,7 @@ $("#gallery-join").on("click", async function () {
         $(".content").delay(1000).fadeIn(500);
         $(".login-area").css("visibility", "hidden");
 
+        msgSubscribe()
         subscribe()
     } catch (error) {
         location.reload()
@@ -145,7 +153,7 @@ $("#gallery-join").on("click", async function () {
 
 async function hand_dicide() {
     // ・それぞれで自身の数字を決定→firebaseで保持
-    const playerHandRef = ref(db, `hands/${roomid}/${player_tug}`)
+    const playerHandRef = ref(db, `hands/${roomid}/${window.player_tug}`)
     await set(playerHandRef, player_hand)
 
     // ・双方の数字が決まったらホスト側でターン決め(決まるまで待機)
@@ -154,7 +162,7 @@ async function hand_dicide() {
         const data = snapshot.val()
         console.log(data);
         if (data.length === 2) {
-            if (player_tug === 0) {
+            if (window.player_tug === 0) {
                 rival_hand = data[1]
                 console.log("player_hand" + player_hand);
                 console.log("rival_hand" + rival_hand);
@@ -182,7 +190,71 @@ async function hand_dicide() {
     })
 }
 
+function msgSubscribe() {
+    const chatRef = ref(db, `chat/${roomid}`)
+    onValue(chatRef, (snapshot) => {
+        $(".chat-view").html("");
+
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val()
+
+            const msgHtml = `<div class="chat"><div class="chat-user"><img class="chat-icon" src="${data.uI}"></div><div class="chat-msg"><p class="chat-user-name">${data.uN}</p><p>${data.message}</p></div></div>`
+
+            $(".chat-view").append(msgHtml);
+        });
+    })
+
+    const playerRef = ref(db, `player/${roomid}`)
+    onValue(playerRef, (snapshot) => {
+        const data = snapshot.val()
+
+        const p0 = data[0] ?? { name: "Host player", photoURL: "./img/default.png" }
+        const p1 = data[1] ?? { name: "Guest player", photoURL: "./img/default.png" }
+
+        host_name = p0.name
+        guest_name = p1.name
+
+        if (window.player_tug === 0 || window.player_tug === -1) {
+            player_name = p0.name
+            player_icon = p0.photoURL
+
+            rival_name = p1.name
+            rival_icon = p1.photoURL
+        } else if (window.player_tug === 1) {
+            player_name = p1.name
+            player_icon = p1.photoURL
+
+            rival_name = p0.name
+            rival_icon = p0.photoURL
+        }
+
+        $(".player-name-area p").text(player_name);
+        $(".player-turn p").text(`${player_name}のターン`);
+        $(".player-icon-area img").attr("src", player_icon);
+
+        $(".rival-name-area p").text(rival_name);
+        $(".rival-turn p").text(`${rival_name}のターン`);
+        $(".rival-icon-area img").attr("src", rival_icon)
+    })
+
+}
+
 function subscribe() {
+    if (window.player_tug === -1) {
+        const handRef = ref(db, `hands/${roomid}`)
+        const unsubscribeHands = onValue(handRef, async (snapshot) => {
+            const data = snapshot.val()
+            if (data === null) return
+            console.log(data);
+            if (data.length === 2) {
+                player_hand = data[0]
+                rival_hand = data[1]
+                console.log("player_hand" + player_hand);
+                console.log("rival_hand" + rival_hand);
+                unsubscribeHands()
+            }
+        })
+    }
     const textRef = ref(db, `text/${roomid}`)
     onChildAdded(textRef, (snapshot) => {
         const data = snapshot.val()
@@ -194,10 +266,7 @@ function subscribe() {
         if (data === `${host_name} turn.`) {
             current_turn = 0
 
-            $(".player-turn").css("visibility", "visible")
-            $(".rival-turn").css("visibility", "hidden")
-
-            if (player_tug === current_turn) {
+            if (window.player_tug === current_turn) {
                 host_player_turn()
             }
             return
@@ -206,10 +275,7 @@ function subscribe() {
         if (data === `${guest_name} turn.`) {
             current_turn = 1
 
-            $(".rival-turn").css("visibility", "visible")
-            $(".player-turn").css("visibility", "hidden")
-
-            if (player_tug === current_turn) {
+            if (window.player_tug === current_turn) {
                 guest_player_turn()
             }
             return
@@ -221,12 +287,18 @@ function subscribe() {
         const data = snapshot.val()
         console.log(data);
 
-        if (player_tug === 0) {
-            $(".player-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
-        } else if (player_tug === 1) {
-            $(".rival-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
+        if (data.number !== "action") {
+            if (window.player_tug === 0 || window.player_tug === -1) {
+                $(".player-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
+            } else if (window.player_tug === 1) {
+                $(".rival-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
+            }
         } else {
-            $(".player-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
+            if (window.player_tug === 0 || window.player_tug === -1) {
+                $(".player-score-area tbody").append(`<tr><td colspan=2>${data.h_b}</td></tr>`);
+            } else if (window.player_tug === 1) {
+                $(".rival-score-area tbody").append(`<tr><td colspan=2>${data.h_b}</td></tr>`);
+            }
         }
 
     })
@@ -236,57 +308,104 @@ function subscribe() {
         const data = snapshot.val()
         console.log(data);
 
-        if (player_tug === 1) {
-            $(".player-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
-        } else if (player_tug === 0) {
-            $(".rival-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
+        if (data.number !== "action") {
+            if (window.player_tug === 1) {
+                $(".player-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
+            } else if (window.player_tug === 0 || window.player_tug === -1) {
+                $(".rival-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
+            }
         } else {
-            $(".rival-score-area tbody").append(`<tr><td>${data.number}</td><td>${data.h_b}</td></tr>`);
+            if (window.player_tug === 1) {
+                $(".player-score-area tbody").append(`<tr><td colspan=2>${data.h_b}</td></tr>`);
+            } else if (window.player_tug === 0 || window.player_tug === -1) {
+                $(".rival-score-area tbody").append(`<tr><td colspan=2>${data.h_b}</td></tr>`);
+            }
         }
 
     })
 
-    const playerRef = ref(db, `player/${roomid}`)
-    onValue(playerRef, (snapshot) => {
-        const data = snapshot.val()
-        host_name = data[0].name
-        guest_name = data[1].name
+    const actionRef = ref(db, `action/${roomid}`);
+    onChildAdded(actionRef, (snapshot) => {
+        const data = snapshot.val();
 
-        if (player_tug === 0 || player_tug === -1) {
-            player_name = data[0].name
-            player_icon = data[0].photoURL
+        if (data.type === "HIGHLOW" && window.player_tug === data.by) {
+            if (window.player_tug === data.by) {
+                const textRef = ref(db, `text/${roomid}`)
+                const newTextRef = push(textRef)
+                setTimeout(async () => {
+                    await set(newTextRef, `HIGHLOW`)
+                }, 1500);
+            }
 
-            rival_name = data[1].name
-            rival_icon = data[1].photoURL
-        } else if (player_tug === 1) {
-            player_name = data[1].name
-            player_icon = data[1].photoURL
-
-            rival_name = data[0].name
-            rival_icon = data[0].photoURL
+            if (window.player_tug === 0 || window.player_tug === -1) {
+                const hostScoreRef = ref(db, `score/${roomid}/host`)
+                const newHostScoreRef = push(hostScoreRef)
+                const msg = {
+                    number: "action",
+                    h_b: `HIGHLOW`
+                }
+                setTimeout(async () => {
+                    await set(newHostScoreRef, msg)
+                }, 3500);
+            } else if (window.player_tug === 1) {
+                const guestScoreRef = ref(db, `score/${roomid}/guest`)
+                const newGuestScoreRef = push(guestScoreRef)
+                const msg = {
+                    number: "action",
+                    h_b: `HIGHLOW`
+                }
+                setTimeout(async () => {
+                    await set(newGuestScoreRef, msg)
+                }, 3500);
+            }
         }
-        $(".player-name-area p").text(player_name);
-        $(".player-turn p").text(`${player_name}のターン`);
-        $(".player-icon-area img").attr("src", player_icon);
 
-        $(".rival-name-area p").text(rival_name);
-        $(".rival-turn p").text(`${rival_name}のターン`);
-        $(".rival-icon-area img").attr("src", rival_icon)
+        setTimeout(() => {
+            if (data.by === window.player_tug) {
+                for (let i = 0; i < rival_hand.length; i++) {
+                    if (rival_hand[i] < 5) {
+                        $(`#rival-hand-${i + 1}`).attr("src", "./img/low.png");
+                    } else {
+                        $(`#rival-hand-${i + 1}`).attr("src", "./img/high.png");
+                    }
+                }
+            } else if (window.player_tug === -1) {
+                if (data.by === 0) {
+                    for (let i = 0; i < rival_hand.length; i++) {
+                        if (rival_hand[i] < 5) {
+                            $(`#rival-hand-${i + 1}`).attr("src", "./img/low.png");
+                        } else {
+                            $(`#rival-hand-${i + 1}`).attr("src", "./img/high.png");
+                        }
+                    }
+                } else if (data.by === 1) {
+                    for (let i = 0; i < player_hand.length; i++) {
+                        if (player_hand[i] < 5) {
+                            $(`#player-hand-${i + 1}`).attr("src", "./img/low.png");
+                        } else {
+                            $(`#player-hand-${i + 1}`).attr("src", "./img/high.png");
+                        }
+                    }
+                }
+            }
 
-        
-    })
+            if (window.player_tug === data.by) {
+                online_change_turn()
+            }
+        }, 3500);
+    });
 }
 
 async function online_change_turn() {
     const textRef = ref(db, `text/${roomid}`)
     const newTextRef = push(textRef)
     call_array.length = 0
-    if (current_turn === 0 && player_tug === 0) {
+    if (current_turn === 0 && window.player_tug === 0) {
         current_turn = 1
         setTimeout(async () => {
             await set(newTextRef, `${guest_name} turn.`)
         }, 1500);
-    } else if (current_turn === 1 && player_tug === 1) {
+    } else if (current_turn === 1 && window.player_tug === 1) {
         current_turn = 0
         setTimeout(async () => {
             await set(newTextRef, `${host_name} turn.`)
@@ -381,3 +500,26 @@ async function online_judge() {
         online_change_turn()
     }, 3000);
 }
+
+$("#send").on("click", async function () {
+    const chatRef = ref(db, `chat/${roomid}`)
+    const newChatRef = push(chatRef)
+
+    const msg = {
+        uI: currentUser?.photoURL ?? "./img/default.png",
+        uN: currentUser?.displayName ?? "ゲスト",
+        message: $("#input-message").val()
+    }
+
+    await set(newChatRef, msg)
+
+    $("#input-message").val("")
+});
+
+
+$("#input-message").keydown(function (e) {
+    if ($("#input-message").val() === "") return
+    if (e.key === "Enter") {
+        $("#send").click()
+    }
+});

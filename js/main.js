@@ -67,9 +67,9 @@ function open_numpad(target_array, target_limit, target_type, target_function, t
         }
     }
 
-    // if (!item_used && current_turn === 0) {
-    $(".player-button").removeClass("is-disabled");
-    // }
+    if (!item_used && (window.player_tug === current_turn || (window.player_tug === -1 && current_turn === 0))) {
+        $(".player-button").removeClass("is-disabled");
+    }
 
     /**
      * 数字ボタン押下
@@ -135,30 +135,43 @@ function open_numpad(target_array, target_limit, target_type, target_function, t
 
     });
 
-    /**
-     * HIGHLOWボタン押下
-     */
-    $("#highlow").off("click")
-    $("#highlow").on("click", function () {
-        item_used = true
-        $(".player-button").addClass("is-disabled");
+/**
+ * HIGHLOWボタン押下
+ */
+$("#highlow").off("click")
+$("#highlow").on("click", async function () {
+    item_used = true
+    $(".player-button").addClass("is-disabled");
 
-        $(".numpad").css("display", "none");
-        $(".rival-score-area .score-table").css("display", "table");
+    $(".numpad").css("display", "none");
+    $(".rival-score-area .score-table").css("display", "table");
 
-        change_result_text("HIGHLOW")
-        setTimeout(() => {
-            $(".player-score-area tbody").append(`<tr><td colspan=2>HIGHLOW</td></tr>`);
-            for (i = 0; i < rival_hand.length; i++) {
-                if (rival_hand[i] < 5) {
-                    $(`#rival-hand-${i + 1}`).attr("src", "./img/low.png");
-                } else {
-                    $(`#rival-hand-${i + 1}`).attr("src", "./img/high.png");
-                }
+    
+    if (window.player_tug === 0 || window.player_tug === 1) {
+
+        const actionRef = window.dbref(window.db, `action/${window.roomid}`);
+        const newActionRef = window.dbpush(actionRef);
+
+        await window.dbset(newActionRef, {
+            type: "HIGHLOW",
+            by: window.player_tug
+        })
+        return
+    }
+    
+    change_result_text("HIGHLOW")
+    setTimeout(() => {
+        $(".player-score-area tbody").append(`<tr><td colspan=2>HIGHLOW</td></tr>`);
+        for (i = 0; i < rival_hand.length; i++) {
+            if (rival_hand[i] < 5) {
+                $(`#rival-hand-${i + 1}`).attr("src", "./img/low.png");
+            } else {
+                $(`#rival-hand-${i + 1}`).attr("src", "./img/high.png");
             }
-            change_turn()
-        }, 1500);
-    });
+        }
+        change_turn()
+    }, 1500);
+});
 
     /**
      * TARGETボタン押下
