@@ -27,6 +27,7 @@
         <div class="start">
             <div class="start-content">
                 <h1>Hit and Blow</h1>
+
                 <div class="menu-btn">
                     <div class="room-create">
                         <button id="cpu-match">CPU戦</button>
@@ -41,34 +42,44 @@
                         <button id="gallery-join">観戦</button>
                     </div>
                 </div>
-                <div class="rule">
-                    <h2>ルール説明</h2>
-                    <p>
-                        それぞれのプレイヤーが、0-9までの数字を使って、3桁の番号を作成する。
-                        <br>
-                        先攻のプレイヤーは相手の番号を推理してコールする。数字と桁が合っていた場合は「HIT」、数字は合っているが桁は合っていない場合は「BLOW」となる。
-                        <br>
-                        これを先攻・後攻が繰り返して行い、先に相手の番号を完全に当てきったプレイヤーの勝利となる。
-                        <br>
-                        プレイヤーはコールに代わり、一度だけアイテムの使用が可能。
-                        <br>
-                        <!-- プレイヤーはコールに代わり、1試合につき1度だけアイテムを1種類使用が可能 -->
-                    </p>
+                <div class="rule-wrap">
+                    <section class="img">
+                        <img src="./img/rule.png">
+                    </section>
+                    <section class="text">
+                        <div class="rule">
+                            <h2>ルール説明</h2>
+                            <p>
+                                それぞれのプレイヤーは、<strong>0〜9の数字</strong>で<strong>3桁の番号</strong>を1つ作ります。<br>
+                                先攻・後攻で交互に、相手の番号を<strong>3桁でコール（推理）</strong>します。<br>
+                                コールの結果は、次のルールで判定されます。<br><br>
+
+                                <strong>HIT</strong>：数字も<strong>桁（位置）</strong>も一致 ||
+                                <strong>BLOW</strong>：数字は一致しているが、<strong>桁（位置）が違う</strong><br><br>
+
+                                <strong>勝利条件</strong>：相手の番号を<strong>すべてHIT</strong>で当てたプレイヤーの勝ちです。<br>
+                                なお、各プレイヤーはゲーム中<strong>1回だけ</strong>、コールの代わりに<strong>アイテム</strong>を使えます。<br><br>
+
+                                <strong>具体例</strong><br>
+                                相手の番号が「<strong>427</strong>」のとき…<br>
+                                ・「<strong>437</strong>」とコール → 4と7は位置も一致、3は不一致：<strong>2 HIT / 0 BLOW</strong><br>
+                                ・「<strong>274</strong>」とコール → 2/7/4は数字は合っているが位置が違う：<strong>0 HIT / 3 BLOW</strong><br>
+                            </p>
+                        </div>
+
+                        <div class="rule">
+                            <h2>アイテム</h2>
+                            <p>
+                                <strong>HIGHLOW</strong><br>
+                                相手の設定ナンバーの<strong>各桁</strong>が、<strong>HIGH（5〜9）</strong>か<strong>LOW（0〜4）</strong>かを知ることができます。<br><br>
+                            </p>
+                        </div>
+                    </section>
                 </div>
-                <div class="rule">
-                    <h2>アイテム</h2>
-                    <p>
-                        HIGHLOW ...相手の設定ナンバーについて、全ての桁の数字が、それぞれ「HIGH (5-9)」「LOW (0-4)」のどちらかを知ることができる。
-                        <!-- <br>
-                        TARGET ...「0」〜「9」の10種類の数字のうち1つを指定して、相手にその数字を使用しているか否かを訊くことができる。
-                        <br>
-                        SHUFFLE ...自分が設定した番号カードを並べ替えて、新たな番号にすることができる。
-                        <br>
-                        CHANGE ...自分のナンバーの中から1つを選択し、その番号を他の数字に交換できる。 -->
-                    </p>
-                </div>
+
             </div>
         </div>
+
         <div class="content">
             <div class="main">
                 <div class="rival-area">
@@ -170,11 +181,14 @@
                     </div>
                     <div class="player-btn-area">
                         <div class="button player-button is-disabled" id="target" style="visibility: hidden;">
-                            <small>TARGET </small><img src="./img/target.png"></div>
+                            <small>TARGET </small><img src="./img/target.png">
+                        </div>
                         <div class="button player-button is-disabled" id="shuffle" style="visibility: hidden;">
-                            <small>SHUFFLE</small><img src="./img/shuffle.png"></div>
+                            <small>SHUFFLE</small><img src="./img/shuffle.png">
+                        </div>
                         <div class="button player-button is-disabled" id="change" style="visibility: hidden;">
-                            <small>CHANGE </small><img src="./img/change.png"></div>
+                            <small>CHANGE </small><img src="./img/change.png">
+                        </div>
                         <div class="button player-button is-disabled" id="highlow"><small>HIGHLOW</small><img
                                 src="./img/highlow.png"></div>
                     </div>

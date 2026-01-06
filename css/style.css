@@ -69,6 +69,23 @@ p {
     flex-direction: column;
 }
 
+.rule-wrap {
+    display: flex;
+}
+
+section.img {
+    width: 50%;
+}
+
+section.img img {
+    width: 100%;
+}
+
+section.text {
+    width: 50%;
+    font-size: medium;
+}
+
 .rule {
     width: 100%;
 
@@ -81,6 +98,10 @@ p {
 
 .rule h2 {
     text-align: center;
+}
+
+.rule p {
+    margin: 0 auto
 }
 
 .content {

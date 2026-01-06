@@ -120,7 +120,6 @@ $("#room-join").on("click", async function () {
 
         $(".start").fadeOut(1000);
         $(".content").delay(1000).fadeIn(500);
-        $(".login-area").css("visibility", "hidden");
 
         const guestPlayerRef = ref(db, `player/${roomid}/1`)
         await set(guestPlayerRef, {
@@ -160,7 +159,6 @@ $("#gallery-join").on("click", async function () {
 
         $(".start").fadeOut(1000);
         $(".content").delay(1000).fadeIn(500);
-        $(".login-area").css("visibility", "hidden");
 
         msgSubscribe()
         subscribe()

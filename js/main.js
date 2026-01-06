@@ -21,6 +21,8 @@ $("#cpu-match").on("click", function () {
     $(".start").fadeOut(1000);
     $(".content").delay(1000).fadeIn(500);
     $("body").addClass("cpu-mode");
+    $(".login-area").css("visibility", "hidden");
+
 
     player_name = "Player"
     rival_name = "CPU"
